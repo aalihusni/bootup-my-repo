@@ -3,15 +3,17 @@ version: '3.9'
 services:
 
   nodejs:
-    build: nodeJS-backend/
+    build:
+      context: nodeJS-backend/
+      dockerfile: Dockerfile
+    container_name: nodejs-backend
+    restart: always
     ports:
-      - 8080:80
-      - 443:443
+      - 8080:8080
+      - 4430:443
     tty: true
     volumes:
-      - db_data:/var/www/nodejs
-    working_dir: /var/www/nodejs
-    command: ""
+      - node_data:/usr/src/app
     links:
       - mysqlDB
       - redis
@@ -19,15 +21,16 @@ services:
       - mysqlDB
       - redis
   vuejs:
-    build: cart-demo-front-end/
+    build:
+      context: cart-demo-front-end/
+      dockerfile: Dockerfile
     ports:
-      - 8081:80
-      - 4430:443
+      - 8081:8081
+      - 4431:443
     tty: true
+    restart: always
     volumes:
-      - db_data:/var/www/vuejs
-    working_dir: /var/www/vuejs
-    command: ""
+      - vuejs_data:/app
     links:
       - nodejs
     depends_on:
@@ -47,4 +50,6 @@ services:
       MYSQL_PASSWORD: wordpress
 
 volumes:
+  node_data: {}
+  vuejs_data: {}
   db_data: {}
