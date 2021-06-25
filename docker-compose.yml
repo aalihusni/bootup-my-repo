@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+
+  nodejs:
+    build: nodeJS-backend/
+    ports:
+      - 8080:80
+      - 443:443
+    tty: true
+    volumes:
+      - db_data:/var/www/nodejs
+    working_dir: /var/www/nodejs
+    command: ""
+    links:
+      - mysqlDB
+      - redis
+    depends_on:
+      - mysqlDB
+      - redis
+  vuejs:
+    build: cart-demo-front-end/
+    ports:
+      - 8081:80
+      - 4430:443
+    tty: true
+    volumes:
+      - db_data:/var/www/vuejs
+    working_dir: /var/www/vuejs
+    command: ""
+    links:
+      - nodejs
+    depends_on:
+      - nodejs
+  redis:
+    image: redis
+
+  mysqlDB:
+    image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+volumes:
+  db_data: {}
