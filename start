@@ -1,0 +1,26 @@
+git --version 2>&1 >/dev/null
+GIT_IS_AVAILABLE=$?
+
+if [ $GIT_IS_AVAILABLE -eq 0 ]; then
+	echo "Git installed". $GIT_IS_AVAILABLE. "Proceed with cloning repos..";
+	echo "Checking for ssh keys";
+	ls -al ~/.ssh | grep id_rsa.pub 2>&1 >/dev/null
+
+	SSH_KEY_AVAILABLE=$?
+  SUB_DIR_1="nodeJS-backend"
+  SUB_DIR_2="cart-demo-front-end"
+	if [ $SSH_KEY_AVAILABLE -eq 0 ]; then
+		echo "Cloning project files to this directory";
+		git clone git@github.com:aalihusni/nodejs-backend.git $SUB_DIR_1 2>&1 >/dev/null
+		cd $SUB_DIR_1
+		git checkout main
+    cd ..
+    echo "Cloning project files to this directory";
+    git clone git@github.com:aalihusni/vuejs-cart-demo.git $SUB_DIR_2 2>&1 >/dev/null
+    cd $SUB_DIR_2
+    git checkout main
+    cd ..
+	fi
+
+  sudo docker-compose up --force-recreate --build
+fi
