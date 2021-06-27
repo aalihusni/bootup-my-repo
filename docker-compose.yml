@@ -19,42 +19,54 @@ services:
       - ./nodeJS-backend/:/usr/src/app
     links:
       - mongodb
-#      - mysqlDB
-#      - redis
+      - mysqlDB
+      - redis
     depends_on:
-#      - mysqlDB
-#      - redis
+      - mysqlDB
+      - redis
       - mongodb
     command: ["sh","init.sh"]
 
-#  vuejs:
-#    build:
-#      context: cart-demo-front-end/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8081:8081
-#      - 4431:443
-#    tty: true
-#    restart: always
-#    volumes:
-#      - vuejs_data:/app
-#    links:
-#      - nodejs
-#    depends_on:
-#      - nodejs
-#  redis:
-#    image: redis
-#
-#  mysqlDB:
-#    image: mysql:8.0
-#    volumes:
-#      - db_data:/var/lib/mysql
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: somewordpress
-#      MYSQL_DATABASE: wordpress
-#      MYSQL_USER: wordpress
-#      MYSQL_PASSWORD: wordpress
+  vuejs:
+    build:
+      context: cart-demo-front-end/
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+      - 4431:443
+    tty: true
+    working_dir: /app
+    restart: always
+    volumes:
+      - ./cart-demo-front-end:/app
+    command: ["sh","init.sh"]
+    networks:
+      - nodeapp-network
+    links:
+      - nodejs
+    depends_on:
+      - nodejs
+  redis:
+    image: redis
+    networks:
+      - nodeapp-network
+    ports:
+      - 6380:6379
+
+  mysqlDB:
+    image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    ports:
+      - 3361:3360
+    networks:
+      - nodeapp-network
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
   mongodb:
     image : mongo
     container_name: mongodb
@@ -65,12 +77,11 @@ services:
       - mongo_data:/data/db
     networks:
       - nodeapp-network
-#    ports:
-#      - 27017:27017
-#    restart: unless-stopped
+    ports:
+      - 27018:27017
+    restart: unless-stopped
 volumes:
   node_data: {}
-  vuejs_data: {}
   db_data: {}
   mongo_data: {}
 networks:
