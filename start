@@ -14,15 +14,11 @@ if [ $GIT_IS_AVAILABLE -eq 0 ]; then
 		echo "Cloning project files to this directory";
 		git clone git@github.com:aalihusni/nodejs-backend.git $SUB_DIR_1 2>&1 >/dev/null
 		cd $SUB_DIR_1
-		cp .env.example1 .env
-		rm -rf .env.example2
 		git checkout main
         cd ..
         echo "Cloning project files to this directory";
-		git clone git@github.com:aalihusni/nodejs-backend.git $SUB_DIR_2 2>&1 >/dev/null
+		git clone git@github.com:aalihusni/nodejs-backend-api.git $SUB_DIR_2 2>&1 >/dev/null
 		cd $SUB_DIR_2
-		cp .env.example2 .env
-		rm -rf .env.example1
 		git checkout main
         cd ..
         echo "Cloning project files to this directory";
