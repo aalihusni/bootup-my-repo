@@ -29,7 +29,7 @@ services:
   nodejs-2:
     build:
       context: nodeJS-backend2/
-      dockerfile: Dockerfile2
+      dockerfile: Dockerfile
     container_name: nodejs-backend2
     restart: always
     working_dir: /usr/src/app-2
