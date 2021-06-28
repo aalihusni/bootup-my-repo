@@ -97,7 +97,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 #created folder
-/nodeJS-backend
+/nodeJS-backend*
 /cart-demo-front-end
 
 #apple windows linux
