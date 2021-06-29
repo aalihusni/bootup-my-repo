@@ -4,12 +4,11 @@ There are several projects that will be checkout from this repository.
 - NodeJS Back-end (basic)
 - VueJS Front-end (wip)
 
-Purpose of this repository?
-
-- Showcase program written in various language.
-- Pre-requisite
+Pre-requisite
   - Make sure you have installed [Docker](https://docs.docker.com/engine/install/)
 
+Purpose of this repository?
+- Showcase program written in various language.
 - The front-end code will communicate with the endpoints from the other repository
 - Endpoints is available using respective ports
 
