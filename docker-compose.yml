@@ -25,7 +25,30 @@ services:
       - mysqlDB
       - redis
       - mongodb
-    command: ["sh","init.sh"]
+    command: [ "sh","init.sh" ]
+  nodejs-2:
+    build:
+      context: nodeJS-backend2/
+      dockerfile: Dockerfile
+    container_name: nodejs-backend2
+    restart: always
+    working_dir: /usr/src/app-2
+    ports:
+      - 8082:8082
+    tty: true
+    networks:
+      - nodeapp-network
+    volumes:
+      - ./nodeJS-backend2/:/usr/src/app-2
+    links:
+      - mongodb
+      - mysqlDB
+      - redis
+    depends_on:
+      - mysqlDB
+      - redis
+      - mongodb
+    command: [ "sh","init.sh" ]
 
   vuejs:
     build:
@@ -33,13 +56,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8081:8081
-      - 4431:443
     tty: true
     working_dir: /app
     restart: always
     volumes:
       - ./cart-demo-front-end:/app
-    command: ["sh","init.sh"]
+    command: [ "sh","init.sh" ]
     networks:
       - nodeapp-network
     links:
@@ -68,7 +90,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
   mongodb:
-    image : mongo
+    image: mongo
     container_name: mongodb
     environment:
       - PUID=1000
@@ -81,9 +103,9 @@ services:
       - 27018:27017
     restart: unless-stopped
 volumes:
-  node_data: {}
-  db_data: {}
-  mongo_data: {}
+  node_data: { }
+  db_data: { }
+  mongo_data: { }
 networks:
   nodeapp-network:
     driver: bridge

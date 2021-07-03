@@ -8,18 +8,24 @@ if [ $GIT_IS_AVAILABLE -eq 0 ]; then
 
 	SSH_KEY_AVAILABLE=$?
   SUB_DIR_1="nodeJS-backend"
-  SUB_DIR_2="cart-demo-front-end"
+  SUB_DIR_2="nodeJS-backend2"
+  SUB_DIR_3="cart-demo-front-end"
 	if [ $SSH_KEY_AVAILABLE -eq 0 ]; then
 		echo "Cloning project files to this directory";
 		git clone git@github.com:aalihusni/nodejs-backend.git $SUB_DIR_1 2>&1 >/dev/null
 		cd $SUB_DIR_1
 		git checkout main
-    cd ..
-    echo "Cloning project files to this directory";
-    git clone git@github.com:aalihusni/vuejs-cart-demo.git $SUB_DIR_2 2>&1 >/dev/null
-    cd $SUB_DIR_2
-    git checkout main
-    cd ..
+        cd ..
+        echo "Cloning project files to this directory";
+		git clone git@github.com:aalihusni/nodejs-backend-api.git $SUB_DIR_2 2>&1 >/dev/null
+		cd $SUB_DIR_2
+		git checkout main
+        cd ..
+        echo "Cloning project files to this directory";
+        git clone git@github.com:aalihusni/vuejs-cart-demo.git $SUB_DIR_3 2>&1 >/dev/null
+        cd $SUB_DIR_3
+        git checkout main
+        cd ..
 	fi
 
   sudo docker-compose up --force-recreate --build
